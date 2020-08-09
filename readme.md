@@ -1,0 +1,1 @@
+для установки хром-драйвера CHROMEDRIVER_CDNURL=https://npm.taobao.org/mirrors/chromedriver npm install chromedriver --chromedriver-force-download --detect_chromedriver_version

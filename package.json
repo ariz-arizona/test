@@ -1,0 +1,17 @@
+{
+  "name": "test",
+  "version": "0.0.1",
+  "description": "test mocha test",
+  "main": "test.js",
+  "scripts": {
+    "test": "mocha test.js --timeout 100000"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chai": "^4.2.0",
+    "chromedriver": "^84.0.1",
+    "mocha": "^8.1.1",
+    "selenium-webdriver": "^4.0.0-alpha.7"
+  }
+}
