@@ -37,11 +37,12 @@ describe("Первая попытка тестирования", function () {
 
   it("Авторизация в кабинет компании", async () => {
     await clickToLogin(
-      (login = "aslan@narnia.com"), 
+      (login = "aslan@narnia.com"),
       (password = "qqqqqqqq")
     );
     await driver.wait(webdriver.until.urlContains("cabinet"), 5000);
     const browserUrl = await driver.getCurrentUrl();
+    //todo сравнить заголовок и найти слово Продавца
     expect(browserUrl).to.include("cabinet");
   });
 
@@ -57,11 +58,12 @@ describe("Первая попытка тестирования", function () {
 
   it("Авторизация в кабинет покупателя", async () => {
     await clickToLogin(
-      (login = "paul@atreides.dn"), 
+      (login = "paul@atreides.dn"),
       (password = "qqqqqqqq")
     );
     await driver.wait(webdriver.until.urlContains("cabinet"), 5000);
     const browserUrl = await driver.getCurrentUrl();
+    //todo сравнить заголовок и найти слово Покупателя
     expect(browserUrl).to.include("cabinet");
   });
 
@@ -72,6 +74,7 @@ describe("Первая попытка тестирования", function () {
     driver.findElement(By.css('.goods__item .btn_buy')).click();
     await driver.wait(webdriver.until.elementLocated(webdriver.By.css(".msg-product")), 3000);
 
+    //todo ветку на то, что сразу может появиться окошко корзины
     driver.findElement(By.css('.msg-product .btn_msg-to-cart')).click();
     await driver.wait(webdriver.until.elementLocated(webdriver.By.css(".modal_cart")), 3000);
 
@@ -97,11 +100,8 @@ describe("Первая попытка тестирования", function () {
 
     let novayPochta = await driver.findElement(By.css('[name="delivery"][value="novaya_pochta"]')).getAttribute('id');
     driver.findElement(By.css(`[for="${novayPochta}"]`)).click();
-    driver.findElement(By.css('[placeholder="Город доставки"]')).sendKeys('Х');
-    driver.findElement(By.css('[placeholder="Город доставки"]')).sendKeys('е');
-    driver.findElement(By.css('[placeholder="Город доставки"]')).sendKeys('р');
-    driver.findElement(By.css('[placeholder="Город доставки"]')).click();
-    await driver.wait(webdriver.until.elementLocated(webdriver.By.css(".form__input-autocomplete-item")), 5000);
+    driver.actions({bridge: true}).sendKeys(webdriver.Key.SHIFT).click(driver.findElement(By.css('[placeholder="Город доставки"]'))).sendKeys('Хер').perform();
+    await driver.wait(webdriver.until.elementLocated(webdriver.By.css(".form__input-autocomplete-item")), 3000);
     driver.findElement(By.xpath('//div.form__input-autocomplete-item[text()="Херсон"]')).click();
   })
 });
