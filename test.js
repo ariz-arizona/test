@@ -77,19 +77,19 @@ describe("Первая попытка тестирования", function () {
 
     const cartFirstSelector = '.modal_cart .cart__one:first-child';
 
-    let disabled = await driver.findElement(By.css(`${cartFirstSelector} .btn_cart-checkout`)).getAttribute('disabled');
+    let disabled = (await driver.findElement(By.css(`${cartFirstSelector} .btn_cart-checkout`)).getAttribute('disabled')) === 'true';
     let value = await driver.findElement(By.css(`${cartFirstSelector} .form__input`)).getAttribute('value');
     let summ = await driver.findElement(By.css(`${cartFirstSelector} .cart__product-summ-value`)).getText();
-    if (disabled) {
-      do {
-        let newValue = parseInt(value) + 1;
-        driver.findElement(By.css(`${cartFirstSelector} .form__input`)).sendKeys(newValue);
-        value = await driver.findElement(By.css(`${cartFirstSelector} .form__input`)).getAttribute('value');
-        await driver.wait(async function () {
-          return (summ !== await driver.findElement(By.css(`${cartFirstSelector} .cart__product-summ-value`)).getText());
-        }, 5000);
-        disabled = await driver.findElement(By.css('.modal_cart .cart__one:first-child .btn_cart-checkout')).getAttribute('disabled');
-      } while (disabled === true)
+
+    while (disabled == true) {
+      driver.findElement(By.css(`${cartFirstSelector} .form__input`)).sendKeys(Key.HOME, Key.chord(Key.SHIFT, Key.END), parseInt(value) + 1);
+      await driver.wait(async function () {
+        return (summ !== await driver.findElement(By.css(`${cartFirstSelector} .cart__product-summ-value`)).getText());
+      }, 5000);
+
+      disabled = (await driver.findElement(By.css(`${cartFirstSelector} .btn_cart-checkout`)).getAttribute('disabled')) === 'true';
+      value = await driver.findElement(By.css(`${cartFirstSelector} .form__input`)).getAttribute('value');
+      summ = await driver.findElement(By.css(`${cartFirstSelector} .cart__product-summ-value`)).getText();
     }
 
     driver.findElement(By.css(`${cartFirstSelector} .btn_cart-checkout`)).click();
